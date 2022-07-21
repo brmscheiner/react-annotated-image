@@ -5,6 +5,7 @@
   "repository": "https://github.com/brmscheiner/react-annotated-image",
   "main": "dist/AnnotatedImage.min.js",
   "types": "dist/index.d.ts",
+  "style": "dist/ReactCrop.css",
   "files": [
     "dist",
     "src"
@@ -13,6 +14,7 @@
   "scripts": {
     "start": "webpack --watch --config test/webpack.config.js",
     "build": "webpack",
+    "format": "prettier --write .",
     "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -37,6 +39,7 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.30.0",
     "mini-css-extract-plugin": "^2.6.0",
+    "prettier": "2.7.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "sass": "^1.52.2",

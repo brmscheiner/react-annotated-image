@@ -1,6 +1,6 @@
 # React Annotated Image
 
-An image component that supports drawing annotations 
+An image component that supports drawing annotations
 
 ## Table of Contents
 
@@ -8,22 +8,16 @@ An image component that supports drawing annotations
 2. [Installation](#installation)
 3. [Usage](#usage)
 4. [Example](#example)
-5. [CDN](#cdn)
-6. [Props](#props)
-7. [FAQ](#faq)
-   1. [How can I generate a crop preview in the browser?](#how-can-i-generate-a-crop-preview-in-the-browser)
-   2. [How to correct image EXIF orientation/rotation?](#how-to-correct-image-exif-orientationrotation)
-   3. [How to filter, rotate and annotate?](#how-to-filter-rotate-and-annotate)
-   4. [How can I center the crop?](#how-can-i-center-the-crop)
-8. [Contributing / Developing](#contributing--developing)
+5. [Props](#props)
+6. [Contributing / Developing](#contributing--developing)
 
 ## Features
 
-- Controlled component 
-- Draw rectangles 
-- Draw lines 
-- Create, select, edit and delete objects 
-- Hotkey support 
+- Controlled component
+- Draw rectangles
+- Draw lines
+- Create, select, edit and delete objects
+- Hotkey support
 
 ## Installation
 
@@ -39,17 +33,15 @@ This library works with all modern browsers. It does not work with IE.
 Include the main js module:
 
 ```js
-import AnnotatedImage from 'react-annotated-image'
+import AnnotatedImage from 'react-annotated-image';
 ```
 
 ## Example
 
 ```tsx
 function Demo({ src }) {
-  const [zoom, setZoom] = useState<Zoom>()
-  return (
-    <AnnotatedImage src={src} zoom={zoom} setZoom={setZoom} />
-  )
+  const [zoom, setZoom] = useState<Zoom>();
+  return <AnnotatedImage src={src} zoom={zoom} setZoom={setZoom} />;
 }
 ```
 
@@ -162,7 +154,6 @@ Show [rule of thirds](https://en.wikipedia.org/wiki/Rule_of_thirds) lines in the
 **`circularCrop?: boolean`**
 
 Show the crop area as a circle. If your `aspect` is not `1` (a square) then the circle will be warped into an oval shape. Defaults to `false`.
-
 
 ## Contributing / Developing
 
