@@ -1,3 +1,41 @@
+export interface Rect {
+  id: string | number
+  bounds: number[]
+  selected?: boolean
+  label?: string
+  theta?: number
+  style?: React.CSSProperties
+  className?: string
+}
+
+export interface Line {
+  id: string | number
+  bounds: number[]
+  selected?: boolean
+  label?: string
+  style?: React.CSSProperties
+  className?: string
+}
+
+export interface Zoom {
+  center: number[]
+  scale: number
+}
+
+export interface Coords {
+  x?: number
+  y?: number
+}
+
+export enum CreateMode {
+  Rect = 'rect',
+  Line = 'line',
+  None = 'none'
+}
+
+// OLD
+
+
 export type XOrds = 'e' | 'w'
 export type YOrds = 'n' | 's'
 export type XYOrds = 'nw' | 'ne' | 'se' | 'sw'
