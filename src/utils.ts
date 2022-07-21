@@ -1,5 +1,16 @@
 import { PixelCrop, PercentCrop, Crop, Ords } from './types';
 
+export function convertToRectBounds(x1: number, y1: number, x2: number, y2: number) {
+  return [
+    Math.min(x1, x2),
+    Math.min(y1, y2),
+    Math.abs(x1 - x2),
+    Math.abs(y1 - y2)
+  ]
+}
+
+// old utils
+
 export const defaultCrop: PixelCrop = {
   x: 0,
   y: 0,

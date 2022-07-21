@@ -30,7 +30,9 @@ function App() {
           src={imgSrc}
           createMode={createMode}
           rects={rects}
-          onCreateRect={(_, allRects) => setRects(allRects)}
+          onCreateRect={(_, allRects) => {
+            setRects(allRects);
+          }}
           lines={lines}
           onCreateLine={(_, allLines) => setLines(allLines)}
           width={800}

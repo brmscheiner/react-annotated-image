@@ -1,7 +1,9 @@
 import React, { useCallback, useRef, useEffect, useState } from 'react';
-import { baseLineStyles, baseRectStyles, drawingLineStyles, drawingRectStyles } from './styles';
+import { baseLineStyles, drawingLineStyles, drawingRectStyles } from './styles';
 import { Rect, Line, Zoom, CreateMode, Coords } from './types';
 import useDrag from './useDrag';
+import Rectangle from './Rectangle';
+import { convertToRectBounds } from './utils';
 
 export interface AnnotatedImageProps {
   src: string;
@@ -50,13 +52,16 @@ export default function AnnotatedImage(props: AnnotatedImageProps): JSX.Element 
 
   const convertPixels = useCallback(
     ({ x, y }: Coords) => {
-      if (svgRef.current && x && y) {
+      const definedNumbers = naturalDimensions.w && naturalDimensions.h && x && y;
+      if (svgRef.current && definedNumbers) {
         const svgDimensions = svgRef.current.getBoundingClientRect();
-        return { x: x - svgDimensions.left, y: y - svgDimensions.top };
+        const svgX = x - svgDimensions.left;
+        const svgY = y - svgDimensions.top;
+        return { x: svgX * naturalDimensions.w / svgDimensions.width, y: svgY * naturalDimensions.h / svgDimensions.height };
       }
       return { x, y };
     },
-    [svgRef.current],
+    [svgRef.current, naturalDimensions, naturalDimensions.w, naturalDimensions.h],
   );
 
   useEffect(() => {
@@ -79,11 +84,10 @@ export default function AnnotatedImage(props: AnnotatedImageProps): JSX.Element 
       if (createMode === CreateMode.Rect && onCreateRect) {
         const newRect = {
           id: 'rect',
-          bounds: [dragStart.x, dragStart.y, dragEnd.x - dragStart.y, dragEnd.y - dragStart.y],
+          bounds: convertToRectBounds(dragStart.x, dragStart.y, dragEnd.x, dragEnd.y),
           selected: true,
           theta: 0,
         };
-        console.log(newRect);
         onCreateRect(newRect, [...rects, newRect]);
       } else if (createMode === CreateMode.Line && onCreateLine) {
         const newLine = {
@@ -94,7 +98,7 @@ export default function AnnotatedImage(props: AnnotatedImageProps): JSX.Element 
         onCreateLine(newLine, [...lines, newLine]);
       }
     },
-    [createMode, rects, lines],
+    [createMode, rects.length, lines.length],
   );
 
   const { isDragging, dragStart, current } = useDrag(svgRef, convertPixels, onCompleteDrag);
@@ -104,18 +108,16 @@ export default function AnnotatedImage(props: AnnotatedImageProps): JSX.Element 
   const drawingRect = isDragging && createMode === CreateMode.Rect;
   const drawingLine = isDragging && createMode === CreateMode.Line;
 
-  console.log(rects);
-
   return (
     <svg height={height} width={width} viewBox={`0 0 ${naturalDimensions.w} ${naturalDimensions.h}`} ref={svgRef}>
       <image href={src} x={0} y={0} height="100%" width="100%" />
       {drawingRect && (
-        <rect
-          x={dragStart.x}
-          y={dragStart.y}
-          width={100}
-          height={100}
-          style={{ ...baseRectStyles, ...drawingRectStyles }}
+        <Rectangle
+          x1={dragStart.x}
+          y1={dragStart.y}
+          x2={current.x}
+          y2={current.y}
+          style={drawingRectStyles}
         />
       )}
       {drawingLine && (
@@ -128,13 +130,12 @@ export default function AnnotatedImage(props: AnnotatedImageProps): JSX.Element 
         />
       )}
       {rects.map(rect => (
-        <rect
+        <Rectangle
           key={rect.id}
-          style={baseRectStyles}
-          x={rect.bounds[0]}
-          y={rect.bounds[1]}
-          width={rect.bounds[2]}
-          height={rect.bounds[3]}
+          x1={rect.bounds[0]}
+          y1={rect.bounds[1]}
+          w={rect.bounds[2]}
+          h={rect.bounds[3]}
         />
       ))}
       {lines.map(line => (

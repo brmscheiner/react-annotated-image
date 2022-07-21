@@ -48,7 +48,7 @@ const useDrag = (
     }
 
     return () => {};
-  }, [ref]);
+  }, [ref, convertPixels]);
 
   return { dragStart: dragStartRef.current, current, isDragging: draggingRef.current };
 };
