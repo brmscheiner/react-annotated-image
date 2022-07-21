@@ -1,36 +1,36 @@
-import ReactDOM from 'react-dom'
-import React, { useState, useRef } from 'react'
-import ReactCrop, { centerCrop, makeAspectCrop, Crop, PixelCrop } from '../src'
-import { cropPreview } from './cropPreview'
-import { useDebounceEffect } from './useDebounceEffect'
+import ReactDOM from 'react-dom';
+import React, { useState, useRef } from 'react';
+import ReactCrop, { centerCrop, makeAspectCrop, Crop, PixelCrop } from '../src';
+import { cropPreview } from './cropPreview';
+import { useDebounceEffect } from './useDebounceEffect';
 
-import '../src/ReactCrop.scss'
+import '../src/ReactCrop.scss';
 
 function App() {
-  const [imgSrc, setImgSrc] = useState('')
-  const [previewSrc, setPreviewSrc] = useState('')
-  const imgRef = useRef<HTMLImageElement | null>(null)
-  const [crop, setCrop] = useState<Crop>()
-  const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
-  const [scale, setScale] = useState(1)
-  const [rotate, setRotate] = useState(0)
+  const [imgSrc, setImgSrc] = useState('');
+  const [previewSrc, setPreviewSrc] = useState('');
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const [crop, setCrop] = useState<Crop>();
+  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+  const [scale, setScale] = useState(1);
+  const [rotate, setRotate] = useState(0);
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
-      setCrop(undefined) // Makes crop preview update between images.
-      const reader = new FileReader()
-      reader.addEventListener('load', () => setImgSrc(reader.result?.toString() || ''))
-      reader.readAsDataURL(e.target.files[0])
+      setCrop(undefined); // Makes crop preview update between images.
+      const reader = new FileReader();
+      reader.addEventListener('load', () => setImgSrc(reader.result?.toString() || ''));
+      reader.readAsDataURL(e.target.files[0]);
     }
   }
 
   function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
     if (!e.currentTarget) {
-      return
+      return;
     }
 
-    imgRef.current = e.currentTarget
-    const { width, height } = e.currentTarget
+    imgRef.current = e.currentTarget;
+    const { width, height } = e.currentTarget;
 
     // This is to demonstate how to make and center a % aspect crop
     // which is a bit trickier so we use some helper functions.
@@ -42,25 +42,25 @@ function App() {
         },
         16 / 9,
         width,
-        height
+        height,
       ),
       width,
-      height
-    )
+      height,
+    );
 
-    setCrop(crop)
+    setCrop(crop);
   }
 
   useDebounceEffect(
     async () => {
       if (completedCrop?.width && completedCrop?.height && imgRef.current) {
         // We use canvasPreview as it's much faster than imgPreview.
-        cropPreview(imgRef.current, completedCrop, scale, rotate)
+        cropPreview(imgRef.current, completedCrop, scale, rotate);
       }
     },
     100,
-    [completedCrop, scale, rotate]
-  )
+    [completedCrop, scale, rotate],
+  );
 
   return (
     <div className="App">
@@ -116,7 +116,7 @@ function App() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'));

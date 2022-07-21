@@ -1,5 +1,5 @@
 /* eslint-env node */
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   mode: 'development',
@@ -24,4 +24,4 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
-}
+};

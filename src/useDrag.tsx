@@ -2,11 +2,15 @@ import { useState, useEffect, useRef, RefObject } from 'react';
 import { Coords } from './types';
 
 interface CompleteDragArgs {
-  dragStart: Coords
-  dragEnd: Coords
+  dragStart: Coords;
+  dragEnd: Coords;
 }
 
-const useDrag = (ref: RefObject<SVGElement>, convertPixels: (c: Coords) => Coords, onCompleteDrag: (c: CompleteDragArgs) => void) => {
+const useDrag = (
+  ref: RefObject<SVGElement>,
+  convertPixels: (c: Coords) => Coords,
+  onCompleteDrag: (c: CompleteDragArgs) => void,
+) => {
   const [current, setCurrent] = useState({});
   const dragStartRef = useRef({});
   const draggingRef = useRef(false);

@@ -1,5 +1,5 @@
-export { default } from './ReactCrop'
-export * from './types'
-export * from './utils'
-export * from './ReactCrop'
-export * from './AnnotatedImage'
+export { default } from './ReactCrop';
+export * from './types';
+export * from './utils';
+export * from './ReactCrop';
+export * from './AnnotatedImage';
